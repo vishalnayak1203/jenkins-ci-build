@@ -1,22 +1,23 @@
 pipeline {
     agent any
+
     stages {
-        stage('Build') {
-            steps {
-                //
-                sh 'echo BUILD'
-            }
-        }
         stage('Test') {
             steps {
-                //
-                sh 'echo TEST'
+                echo 'Testing..'
+                sh 'bash tests.sh'
             }
         }
-        stage('Deploy') {
+        stage('Build') {
             steps {
-                //
-                sh 'echo DEPLOY'
+                echo 'Deploying....'
+                sh 'bash build.sh'
+            }
+        }
+        stage('Archive') {
+            steps {
+                echo 'Archiving....'
+                archiveArtifacts artifacts: '**/builds/*.tar.gz', fingerprint: true
             }
         }
     }
