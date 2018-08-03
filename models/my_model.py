@@ -3,7 +3,7 @@ class MyModel:
 
     def __init__(self, id=10, name='dummy'):
         self.id = id
-        self.name = name
+        self.name = None
 
     def validate(self):
         if not self.id:
