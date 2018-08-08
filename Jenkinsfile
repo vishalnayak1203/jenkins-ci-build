@@ -5,6 +5,16 @@ pipeline {
             steps {
                 //
                 sh 'echo BUILD'
+                sh 'pylint --rcfile=pylint.cfg models > pylint.log || exit 0'
+                step([
+                        $class                     : 'WarningsPublisher',
+                        parserConfigurations       : [[
+                                                              parserName: 'PYLint',
+                                                              pattern   : 'pylint.log'
+                                                      ]],
+                        unstableTotalAll           : '0',
+                        usePreviousBuildAsReference: true
+                ])
             }
         }
         stage('Test') {
