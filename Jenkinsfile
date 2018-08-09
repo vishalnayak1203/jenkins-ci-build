@@ -21,6 +21,7 @@ pipeline {
             steps {
                 //
                 sh 'echo TEST'
+                sh 'bash tests.sh'
             }
         }
         stage('Deploy') {
