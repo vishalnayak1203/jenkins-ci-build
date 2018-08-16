@@ -2,6 +2,23 @@ pipeline {
     agent any
 
     stages {
+        stage('Linter'){
+
+            steps {
+
+                sh 'pylint --rcfile=pylint.cfg models | tee pylint.log'
+
+                step([
+                        $class                     : 'WarningsPublisher',
+                        parserConfigurations       : [[
+                                                              parserName: 'PyLint',
+                                                              pattern   : 'pylint.log'
+                                                      ]],
+                        unstableTotalAll           : '10',
+                        usePreviousBuildAsReference: true
+                ])
+            }
+        }
         stage('Test') {
             steps {
                 echo 'Testing..'
